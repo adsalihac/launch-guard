@@ -1,7 +1,7 @@
 "use client";
 
 import { jsPDF } from "jspdf";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   calculateRiskReport,
   categoryLabel,
@@ -79,6 +79,96 @@ const exampleAnswers: RiskAnswers = {
   regulatedContent: false,
   reviewerNotes: false,
 };
+
+const demoPresets: Array<{ label: string; answers: RiskAnswers }> = [
+  {
+    label: "Social App",
+    answers: {
+      appName: "ConnectHub",
+      category: "social",
+      framework: "react-native",
+      authRequired: true,
+      reviewerAccess: false,
+      accountDeletion: false,
+      privacyPolicy: true,
+      privacyLabels: false,
+      dataSafetyForm: false,
+      dataTypes: ["contact", "photos", "usage", "identifiers"],
+      usesTracking: true,
+      trackingConsent: false,
+      hasSubscriptions: true,
+      subscriptionDisclosures: false,
+      usesExternalPayments: false,
+      hasUserGeneratedContent: true,
+      moderationTools: true,
+      contentReporting: false,
+      userBlocking: false,
+      legalDocs: true,
+      sensitivePermissions: ["camera", "photos", "notifications"],
+      targetChildren: false,
+      regulatedContent: false,
+      reviewerNotes: false,
+    },
+  },
+  {
+    label: "Health App",
+    answers: {
+      appName: "FitTrack",
+      category: "health",
+      framework: "native",
+      authRequired: true,
+      reviewerAccess: true,
+      accountDeletion: true,
+      privacyPolicy: true,
+      privacyLabels: false,
+      dataSafetyForm: false,
+      dataTypes: ["health", "location", "identifiers"],
+      usesTracking: false,
+      trackingConsent: false,
+      hasSubscriptions: true,
+      subscriptionDisclosures: true,
+      usesExternalPayments: false,
+      hasUserGeneratedContent: false,
+      moderationTools: false,
+      contentReporting: false,
+      userBlocking: false,
+      legalDocs: true,
+      sensitivePermissions: ["camera", "location", "notifications"],
+      targetChildren: false,
+      regulatedContent: true,
+      reviewerNotes: false,
+    },
+  },
+  {
+    label: "Fintech App",
+    answers: {
+      appName: "PaySwift",
+      category: "finance",
+      framework: "expo",
+      authRequired: true,
+      reviewerAccess: true,
+      accountDeletion: true,
+      privacyPolicy: true,
+      privacyLabels: true,
+      dataSafetyForm: true,
+      dataTypes: ["contact", "financial", "usage", "identifiers"],
+      usesTracking: false,
+      trackingConsent: false,
+      hasSubscriptions: false,
+      subscriptionDisclosures: false,
+      usesExternalPayments: true,
+      hasUserGeneratedContent: false,
+      moderationTools: false,
+      contentReporting: false,
+      userBlocking: false,
+      legalDocs: true,
+      sensitivePermissions: ["camera", "notifications"],
+      targetChildren: false,
+      regulatedContent: true,
+      reviewerNotes: true,
+    },
+  },
+];
 
 function CheckIcon() {
   return (
@@ -224,6 +314,59 @@ export function RiskChecker() {
   const [copied, setCopied] = useState(false);
   const report = useMemo(() => calculateRiskReport(answers), [answers]);
 
+  useEffect(() => {
+    const saved = localStorage.getItem("lg-answers");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved) as RiskAnswers;
+        setAnswers(parsed);
+      } catch { /* ignore */ }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("lg-answers", JSON.stringify(answers));
+  }, [answers]);
+
+  const progress = useMemo(() => {
+    let filled = 0;
+    let total = 0;
+
+    const bools: Array<keyof RiskAnswers> = [
+      "privacyPolicy", "privacyLabels", "dataSafetyForm",
+      "hasSubscriptions", "usesExternalPayments",
+      "hasUserGeneratedContent", "legalDocs",
+      "targetChildren", "regulatedContent", "reviewerNotes",
+    ];
+    for (const key of bools) {
+      total++;
+      if (answers[key]) filled++;
+    }
+
+    if (answers.usesTracking) {
+      total++; if (answers.trackingConsent) filled++;
+    }
+    if (answers.authRequired) {
+      total += 2; if (answers.reviewerAccess) filled++; if (answers.accountDeletion) filled++;
+    }
+    if (answers.hasSubscriptions) {
+      total++; if (answers.subscriptionDisclosures) filled++;
+    }
+    if (answers.hasUserGeneratedContent) {
+      total += 2; if (answers.moderationTools) filled++; if (answers.contentReporting) filled++;
+      total++; if (answers.userBlocking) filled++;
+    }
+
+    total += 2; // dataTypes + sensitivePermissions
+    if (answers.dataTypes.length > 0) filled++;
+    if (answers.sensitivePermissions.length > 0) filled++;
+
+    if (answers.appName.trim()) filled++;
+    total++;
+
+    return { filled, total, pct: total > 0 ? Math.round((filled / total) * 100) : 0 };
+  }, [answers]);
+
   function updateAnswer<Key extends keyof RiskAnswers>(key: Key, value: RiskAnswers[Key]) {
     setAnswers((current) => ({ ...current, [key]: value }));
     setCopied(false);
@@ -361,6 +504,15 @@ export function RiskChecker() {
             <p className="mb-4 inline-flex rounded-full border border-brand-400/20 bg-brand-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-brand-400">
               Live App Checker
             </p>
+            <div className="mb-5 flex items-center gap-3">
+              <div className="flex-1 h-1.5 rounded-full bg-white/10 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-brand-400 transition-all duration-500"
+                  style={{ width: `${progress.pct}%` }}
+                />
+              </div>
+              <span className="text-xs text-gray-500 shrink-0">{progress.filled}/{progress.total}</span>
+            </div>
             <h2 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl">
               Check your app before you submit
             </h2>
@@ -635,7 +787,7 @@ export function RiskChecker() {
 
               <div className="flex flex-col gap-3 sm:flex-row">
                 <button
-                  className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3 text-sm font-bold text-white transition hover:border-white/20 hover:bg-white/[0.05] focus:outline-none focus:ring-4 focus:ring-white/10"
+                  className="inline-flex items-center justify-center rounded-xl bg-brand-400 px-5 py-3 text-sm font-bold text-black shadow-lg shadow-brand-400/20 transition hover:bg-brand-300"
                   onClick={() => setAnswers(exampleAnswers)}
                   type="button"
                 >
@@ -646,8 +798,20 @@ export function RiskChecker() {
                   onClick={() => setAnswers(defaultAnswers)}
                   type="button"
                 >
-                  Reset Checker
+                  Reset
                 </button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {demoPresets.map((demo) => (
+                  <button
+                    key={demo.label}
+                    className="rounded-lg border border-white/10 bg-white/[0.02] px-3 py-1.5 text-xs font-medium text-gray-400 transition hover:border-brand-400/30 hover:text-brand-400"
+                    onClick={() => setAnswers(demo.answers)}
+                    type="button"
+                  >
+                    {demo.label}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
