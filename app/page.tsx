@@ -257,7 +257,7 @@ function FeatureGlyph({ tone }: { tone: string }) {
 
 export default function Home() {
   return (
-    <main className="overflow-hidden bg-white text-slate-950">
+    <main className="overflow-hidden bg-white pb-24 text-slate-950 sm:pb-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -457,37 +457,26 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="border-t border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-10 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+      <footer className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-6 lg:px-8">
           <div>
-            <a className="flex items-center gap-3" href="#top" aria-label="LaunchGuard home">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-950 text-sm font-black text-white">
-                LG
-              </span>
-              <span className="font-heading text-lg font-bold">LaunchGuard</span>
+            <a
+              className="text-sm font-semibold text-slate-600 transition hover:text-blue-600"
+              href="https://github.com/adsalihac"
+              rel="noreferrer"
+              target="_blank"
+            >
+              © 2026 adsalihac
             </a>
-            <p className="mt-3 text-sm text-slate-500">App Store Submission Intelligence</p>
           </div>
-          <nav
-            aria-label="Footer navigation"
-            className="flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold text-slate-600"
+          <a
+            className="inline-flex w-fit shrink-0 items-center justify-center rounded-xl bg-[#FFDD00] px-4 py-2.5 text-sm font-black text-slate-950 shadow-sm transition hover:-translate-y-0.5 hover:bg-[#F6D300] focus:outline-none focus:ring-4 focus:ring-amber-200"
+            href="https://www.buymeacoffee.com/adsalihac"
+            rel="noreferrer"
+            target="_blank"
           >
-            <a className="nav-link" href="#features">
-              Features
-            </a>
-            <a className="nav-link" href="#faq">
-              FAQ
-            </a>
-            <a className="nav-link" href="#privacy">
-              Privacy
-            </a>
-            <a className="nav-link" href="#terms">
-              Terms
-            </a>
-            <a className="nav-link" href="#checker">
-              Contact
-            </a>
-          </nav>
+            Buy me a coffee
+          </a>
         </div>
       </footer>
     </main>
