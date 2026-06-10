@@ -1,4 +1,5 @@
 import { RiskChecker } from "./components/risk-checker";
+import { GitHubActions } from "./components/github-actions";
 
 const rejectionReasons = [
   "Missing privacy disclosures",
@@ -273,12 +274,7 @@ export default function Home() {
             </span>
             <span className="font-heading text-lg font-bold">LaunchGuard</span>
           </a>
-          <a
-            className="rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm shadow-blue-600/20 transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
-            href="#checker"
-          >
-            Check My App
-          </a>
+          <GitHubActions />
         </nav>
       </header>
 
@@ -307,7 +303,7 @@ export default function Home() {
                 className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
                 href="#checker"
               >
-                Check My App
+                Start Risk Check
               </a>
               <a
                 className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-base font-bold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
