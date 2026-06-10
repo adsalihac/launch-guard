@@ -18,6 +18,10 @@ export const metadata: Metadata = {
     "iOS app review",
     "Android app review",
   ],
+  manifest: "/manifest.json",
+  other: {
+    "theme-color": "#3ecf8e",
+  },
   icons: {
     icon: "/favicon.svg",
     apple: "/apple-touch-icon.svg",

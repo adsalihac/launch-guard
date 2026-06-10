@@ -312,6 +312,13 @@ function Checklist({ items }: { items: ChecklistItem[] }) {
 export function RiskChecker() {
   const [answers, setAnswers] = useState<RiskAnswers>(defaultAnswers);
   const [copied, setCopied] = useState(false);
+  const [history, setHistory] = useState<Array<{ name: string; appStoreRisk: number; googlePlayRisk: number; approvalChance: number; date: string }>>([]);
+  const [savedReports, setSavedReports] = useState<Array<{ name: string; answers: RiskAnswers }>>([]);
+  const [onboarded, setOnboarded] = useState(true);
+  const [onboardingStep, setOnboardingStep] = useState(0);
+  const [saveName, setSaveName] = useState("");
+  const [showSaveInput, setShowSaveInput] = useState(false);
+  const [compare, setCompare] = useState<{ name: string; appStoreRisk: number; googlePlayRisk: number } | null>(null);
   const report = useMemo(() => calculateRiskReport(answers), [answers]);
 
   useEffect(() => {
@@ -322,11 +329,43 @@ export function RiskChecker() {
         setAnswers(parsed);
       } catch { /* ignore */ }
     }
+    const h = localStorage.getItem("lg-history");
+    if (h) { try { setHistory(JSON.parse(h)); } catch {} }
+    const r = localStorage.getItem("lg-saved");
+    if (r) { try { setSavedReports(JSON.parse(r)); } catch {} }
+    if (!localStorage.getItem("lg-onboarded")) {
+      setOnboarded(false);
+    }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("lg-answers", JSON.stringify(answers));
   }, [answers]);
+
+  useEffect(() => {
+    localStorage.setItem("lg-history", JSON.stringify(history));
+  }, [history]);
+
+  useEffect(() => {
+    localStorage.setItem("lg-saved", JSON.stringify(savedReports));
+  }, [savedReports]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const data = params.get("data");
+    if (data) {
+      try {
+        const decoded = JSON.parse(atob(data)) as RiskAnswers;
+        setAnswers(decoded);
+      } catch {}
+    }
+  }, []);
+
+  useEffect(() => {
+    if (onboarded) return;
+    const step = localStorage.getItem("lg-onboarding-step");
+    if (step) setOnboardingStep(parseInt(step));
+  }, [onboarded]);
 
   const progress = useMemo(() => {
     let filled = 0;
@@ -496,8 +535,117 @@ export function RiskChecker() {
     pdf.save(`${answers.appName || "app"}-risk-report.pdf`);
   }
 
+  function copyShareLink() {
+    const data = btoa(JSON.stringify(answers));
+    const url = `${window.location.origin}${window.location.pathname}?data=${data}`;
+    navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  function saveNewReport() {
+    if (!saveName.trim()) return;
+    const existing = savedReports.findIndex((r) => r.name === saveName.trim());
+    const entry = { name: saveName.trim(), answers };
+    if (existing >= 0) {
+      const updated = [...savedReports];
+      updated[existing] = entry;
+      setSavedReports(updated);
+    } else {
+      setSavedReports([...savedReports, entry]);
+    }
+    setSaveName("");
+    setShowSaveInput(false);
+  }
+
+  function loadSaved(name: string) {
+    const found = savedReports.find((r) => r.name === name);
+    if (found) setAnswers(found.answers);
+  }
+
+  function deleteSaved(name: string) {
+    setSavedReports(savedReports.filter((r) => r.name !== name));
+  }
+
+  function finishOnboarding() {
+    localStorage.setItem("lg-onboarded", "1");
+    setOnboarded(true);
+  }
+
+  function recordHistory() {
+    const entry = {
+      name: answers.appName || "Untitled",
+      appStoreRisk: report.appStoreRisk,
+      googlePlayRisk: report.googlePlayRisk,
+      approvalChance: report.approvalChance,
+      date: new Date().toISOString(),
+    };
+    setHistory((prev) => [entry, ...prev].slice(0, 20));
+  }
+
   return (
-    <section className="border-y border-white/5 py-20 md:py-28" id="checker">
+    <>
+      {!onboarded ? (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-6">
+          <div className="w-full max-w-md rounded-2xl border border-white/[0.08] bg-[#0a0a0a] p-8 shadow-2xl">
+            {onboardingStep === 0 ? (
+              <>
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-brand-400/10">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3ecf8e" strokeWidth="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
+                <h2 className="text-center text-2xl font-bold">Welcome to LaunchGuard</h2>
+                <p className="mt-3 text-center text-sm leading-6 text-gray-400">Predict your App Store and Google Play review risk before you submit. No sign-up needed.</p>
+              </>
+            ) : onboardingStep === 1 ? (
+              <>
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-brand-400/10">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3ecf8e" strokeWidth="1.5"><path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round"/><circle cx="12" cy="12" r="10" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
+                <h2 className="text-center text-2xl font-bold">Answer & Get Instant Results</h2>
+                <p className="mt-3 text-center text-sm leading-6 text-gray-400">Fill in your app details and get an instant risk report with scores, missing requirements, and action steps.</p>
+              </>
+            ) : (
+              <>
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-brand-400/10">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3ecf8e" strokeWidth="1.5"><path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
+                <h2 className="text-center text-2xl font-bold">Fix & Improve</h2>
+                <p className="mt-3 text-center text-sm leading-6 text-gray-400">Use the checklist and recommendations to fix issues before you submit. Save reports and track your progress.</p>
+              </>
+            )}
+            <div className="mt-8 flex items-center justify-between">
+              <button
+                className="text-sm text-gray-500 transition hover:text-white disabled:opacity-0"
+                disabled={onboardingStep === 0}
+                onClick={() => setOnboardingStep((s) => s - 1)}
+              >
+                Back
+              </button>
+              <div className="flex gap-1.5">
+                {[0, 1, 2].map((i) => (
+                  <span key={i} className={`h-1.5 w-1.5 rounded-full transition ${i === onboardingStep ? "bg-brand-400" : "bg-white/20"}`} />
+                ))}
+              </div>
+              {onboardingStep < 2 ? (
+                <button
+                  className="rounded-xl bg-brand-400 px-5 py-2 text-sm font-bold text-black transition hover:bg-brand-300"
+                  onClick={() => setOnboardingStep((s) => s + 1)}
+                >
+                  Next
+                </button>
+              ) : (
+                <button
+                  className="rounded-xl bg-brand-400 px-5 py-2 text-sm font-bold text-black transition hover:bg-brand-300"
+                  onClick={finishOnboarding}
+                >
+                  Get Started
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      ) : null}
+      <section className="border-y border-white/5 py-20 md:py-28" id="checker">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
           <div>
@@ -522,6 +670,19 @@ export function RiskChecker() {
             </p>
 
             <div className="mt-8 space-y-5">
+              {savedReports.length > 0 ? (
+                <div className="flex flex-wrap items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+                  <span className="text-xs font-semibold text-gray-500">Saved:</span>
+                  {savedReports.map((r) => (
+                    <span key={r.name} className="flex items-center gap-1 rounded-md border border-white/10 px-2 py-0.5">
+                      <button className="text-xs text-gray-400 transition hover:text-brand-400" onClick={() => loadSaved(r.name)}>{r.name}</button>
+                      <button className="text-gray-600 transition hover:text-red-400" onClick={() => deleteSaved(r.name)}>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" strokeLinecap="round"/></svg>
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              ) : null}
               <FieldGroup
                 title="App profile"
                 description="Set the broad product context so the report can weight policy-sensitive categories."
@@ -955,6 +1116,96 @@ export function RiskChecker() {
                   </div>
                 </div>
 
+                <div className="mt-4 flex gap-2">
+                  <button
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 text-xs font-medium text-gray-400 transition hover:border-white/20 hover:text-white"
+                    onClick={() => { recordHistory(); setShowSaveInput(true); }}
+                    type="button"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    Save
+                  </button>
+                  <button
+                    className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.02] px-3 py-2 text-xs font-medium text-gray-400 transition hover:border-white/20 hover:text-white"
+                    onClick={copyShareLink}
+                    type="button"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    {copied ? "Copied!" : "Share"}
+                  </button>
+                </div>
+
+                {showSaveInput ? (
+                  <div className="mt-3 flex gap-2">
+                    <input
+                      className="flex-1 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 text-xs text-white outline-none placeholder:text-gray-600 focus:border-brand-400/30"
+                      placeholder="Report name..."
+                      value={saveName}
+                      onChange={(e) => setSaveName(e.target.value)}
+                      onKeyDown={(e) => { if (e.key === "Enter") { recordHistory(); saveNewReport(); } }}
+                    />
+                    <button
+                      className="rounded-lg bg-brand-400 px-3 py-2 text-xs font-bold text-black transition hover:bg-brand-300"
+                      onClick={() => { recordHistory(); saveNewReport(); }}
+                    >
+                      Save
+                    </button>
+                  </div>
+                ) : null}
+
+                {history.length > 0 ? (
+                  <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+                    <div className="mb-2 flex items-center justify-between">
+                      <h4 className="text-xs font-bold uppercase tracking-[0.14em] text-gray-500">Score History</h4>
+                      <button className="text-[10px] text-gray-600 transition hover:text-red-400" onClick={() => setHistory([])}>Clear</button>
+                    </div>
+                    <div className="space-y-1.5">
+                      {history.slice(0, 6).map((h, i) => (
+                        <div key={i} className="flex items-center justify-between gap-2 text-[11px]">
+                          <span className="truncate text-gray-400 max-w-[80px]">{h.name}</span>
+                          <div className="flex items-center gap-2">
+                            <span className={`font-semibold ${h.appStoreRisk >= 65 ? "text-red-400" : h.appStoreRisk >= 35 ? "text-amber-400" : "text-emerald-400"}`}>{h.appStoreRisk}%</span>
+                            <span className="text-gray-600">|</span>
+                            <span className={`font-semibold ${h.googlePlayRisk >= 65 ? "text-red-400" : h.googlePlayRisk >= 35 ? "text-amber-400" : "text-emerald-400"}`}>{h.googlePlayRisk}%</span>
+                            <button
+                              className="ml-1 text-gray-600 transition hover:text-brand-400"
+                              onClick={() => setCompare(compare?.name === h.name ? null : { name: h.name, appStoreRisk: h.appStoreRisk, googlePlayRisk: h.googlePlayRisk })}
+                              title="Compare"
+                            >
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="3" width="6" height="18" rx="1"/><rect x="16" y="3" width="6" height="18" rx="1"/></svg>
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
+                {compare ? (
+                  <div className="mt-3 rounded-xl border border-brand-400/20 bg-brand-400/[0.04] p-3">
+                    <div className="mb-1 flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-brand-400">Compare: {compare.name}</span>
+                      <button className="text-gray-600 transition hover:text-red-400" onClick={() => setCompare(null)}>
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" strokeLinecap="round"/></svg>
+                      </button>
+                    </div>
+                    <div className="mt-2 space-y-1 text-[11px]">
+                      <div className="flex justify-between text-gray-400">
+                        <span>App Store Risk</span>
+                        <span className={report.appStoreRisk < compare.appStoreRisk ? "text-emerald-400" : report.appStoreRisk > compare.appStoreRisk ? "text-red-400" : "text-gray-400"}>
+                          {report.appStoreRisk}% vs {compare.appStoreRisk}%
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-gray-400">
+                        <span>Google Play Risk</span>
+                        <span className={report.googlePlayRisk < compare.googlePlayRisk ? "text-emerald-400" : report.googlePlayRisk > compare.googlePlayRisk ? "text-red-400" : "text-gray-400"}>
+                          {report.googlePlayRisk}% vs {compare.googlePlayRisk}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
                 <div className="mt-5 flex gap-3">
                   <button
                     className="flex-1 inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3 text-sm font-bold text-white transition hover:border-white/20 hover:bg-white/[0.05] focus:outline-none focus:ring-4 focus:ring-white/10"
@@ -982,5 +1233,6 @@ export function RiskChecker() {
         </div>
       </div>
     </section>
+    </>
   );
 }

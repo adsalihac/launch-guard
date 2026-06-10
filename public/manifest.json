@@ -1,0 +1,13 @@
+{
+  "name": "LaunchGuard",
+  "short_name": "LaunchGuard",
+  "description": "Predict App Store and Google Play review risks before submission.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#3ecf8e",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/apple-touch-icon.svg", "sizes": "180x180", "type": "image/svg+xml" }
+  ]
+}
