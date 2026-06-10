@@ -123,21 +123,6 @@ function StatusDot({ color = "bg-emerald-500" }: { color?: string }) {
   return <span aria-hidden="true" className={`h-2.5 w-2.5 rounded-full ${color}`} />;
 }
 
-function CheckIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      className="h-4 w-4"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth="2.5"
-    >
-      <path d="m5 13 4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 function AlertIcon() {
   return (
     <svg
@@ -288,20 +273,6 @@ export default function Home() {
             </span>
             <span className="font-heading text-lg font-bold">LaunchGuard</span>
           </a>
-          <div className="hidden items-center gap-8 text-sm font-semibold text-slate-600 md:flex">
-            <a className="nav-link" href="#checker">
-              Checker
-            </a>
-            <a className="nav-link" href="#features">
-              Features
-            </a>
-            <a className="nav-link" href="#report">
-              Report
-            </a>
-            <a className="nav-link" href="#faq">
-              FAQ
-            </a>
-          </div>
           <a
             className="rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm shadow-blue-600/20 transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
             href="#checker"
@@ -340,9 +311,9 @@ export default function Home() {
               </a>
               <a
                 className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-base font-bold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
-                href="#report"
+                href="#checker"
               >
-                View Example Report
+                Try Demo
               </a>
             </div>
             <div className="mt-10 grid max-w-xl grid-cols-3 gap-5 border-t border-slate-200 pt-7">
@@ -438,83 +409,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-slate-950 text-white" id="report">
-        <div className="mx-auto grid max-w-7xl gap-12 px-5 py-24 sm:px-6 lg:grid-cols-[0.78fr_1fr] lg:items-center lg:px-8">
-          <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-blue-300">
-              Example Report
-            </p>
-            <h2 className="font-heading text-4xl font-bold leading-tight sm:text-5xl">
-              A board-ready view of launch risk
-            </h2>
-            <p className="mt-5 text-lg leading-8 text-slate-300">
-              Share a crisp readiness summary with product, engineering, legal, and
-              leadership before you submit the build.
-            </p>
-          </div>
-          <div className="rounded-xl border border-white/10 bg-white p-5 text-slate-950 shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-5">
-              <div className="flex flex-col justify-between gap-5 border-b border-slate-200 pb-5 sm:flex-row sm:items-center">
-                <div>
-                  <p className="text-sm font-bold uppercase tracking-[0.16em] text-slate-400">
-                    Overall Approval Chance
-                  </p>
-                  <p className="font-heading mt-2 text-6xl font-bold text-slate-950">
-                    92%
-                  </p>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">
-                      Apple Risk
-                    </p>
-                    <p className="mt-2 text-lg font-black text-emerald-800">Low</p>
-                  </div>
-                  <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-700">
-                      Google Risk
-                    </p>
-                    <p className="mt-2 text-lg font-black text-emerald-800">Low</p>
-                  </div>
-                </div>
-              </div>
-              <div className="grid gap-5 pt-5 md:grid-cols-2">
-                <div>
-                  <h3 className="text-sm font-black uppercase tracking-[0.16em] text-slate-500">
-                    Recommendations
-                  </h3>
-                  <div className="mt-4 space-y-3">
-                    {[
-                      "Privacy policy included",
-                      "Account deletion implemented",
-                      "Subscription disclosures verified",
-                    ].map((item) => (
-                      <p className="flex items-center gap-3 text-sm font-semibold" key={item}>
-                        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200">
-                          <CheckIcon />
-                        </span>
-                        {item}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-sm font-black uppercase tracking-[0.16em] text-slate-500">
-                    Missing
-                  </h3>
-                  <p className="mt-4 flex items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-amber-600 ring-1 ring-amber-200">
-                      <AlertIcon />
-                    </span>
-                    Content reporting mechanism
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8" id="audience">
         <div className="mx-auto max-w-3xl text-center">
           <SectionLabel>Who Is It For</SectionLabel>
@@ -563,34 +457,6 @@ export default function Home() {
                 <p className="mt-4 max-w-3xl leading-7 text-slate-600">{faq.answer}</p>
               </details>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8" id="cta">
-        <div className="rounded-xl border border-slate-200 bg-slate-950 px-6 py-16 text-center text-white shadow-[0_24px_80px_rgba(15,23,42,0.18)] sm:px-12">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-blue-300">
-            Launch Ready
-          </p>
-          <h2 className="font-heading text-4xl font-bold leading-tight sm:text-6xl">
-            Submit With Confidence
-          </h2>
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-300">
-            Identify compliance risks before App Review does.
-          </p>
-          <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-            <a
-              className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-600/30 transition hover:-translate-y-0.5 hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300/40"
-              href="#checker"
-            >
-              Analyze My App
-            </a>
-            <a
-              className="inline-flex items-center justify-center rounded-xl border border-white/20 bg-white px-6 py-3.5 text-base font-bold text-slate-950 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-white/30"
-              href="#checker"
-            >
-              Try Demo
-            </a>
           </div>
         </div>
       </section>
