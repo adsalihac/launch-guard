@@ -81,14 +81,7 @@ const exampleAnswers: RiskAnswers = {
 
 function CheckIcon() {
   return (
-    <svg
-      aria-hidden="true"
-      className="h-4 w-4"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth="2.5"
-    >
+    <svg aria-hidden="true" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
       <path d="m5 13 4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
@@ -96,19 +89,8 @@ function CheckIcon() {
 
 function AlertIcon() {
   return (
-    <svg
-      aria-hidden="true"
-      className="h-4 w-4"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
-      <path
-        d="M12 9v4m0 4h.01M10.3 4.5 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.5a2 2 0 0 0-3.4 0Z"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg aria-hidden="true" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path d="M12 9v4m0 4h.01M10.3 4.5 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.5a2 2 0 0 0-3.4 0Z" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -116,7 +98,7 @@ function AlertIcon() {
 function StatusIcon({ status }: { status: ChecklistStatus }) {
   if (status === "Ready") {
     return (
-      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
         <CheckIcon />
       </span>
     );
@@ -124,14 +106,14 @@ function StatusIcon({ status }: { status: ChecklistStatus }) {
 
   if (status === "Review") {
     return (
-      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-1 ring-blue-200">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-400/10 text-brand-400">
         <AlertIcon />
       </span>
     );
   }
 
   return (
-    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-600 ring-1 ring-amber-200">
+    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-amber-400/10 text-amber-400">
       <AlertIcon />
     </span>
   );
@@ -139,14 +121,14 @@ function StatusIcon({ status }: { status: ChecklistStatus }) {
 
 function statusClasses(status: string) {
   if (status === "Low") {
-    return "border-emerald-200 bg-emerald-50 text-emerald-700";
+    return "border-emerald-500/30 bg-emerald-500/10 text-emerald-400";
   }
 
   if (status === "Medium") {
-    return "border-amber-200 bg-amber-50 text-amber-700";
+    return "border-amber-400/30 bg-amber-400/10 text-amber-400";
   }
 
-  return "border-red-200 bg-red-50 text-red-700";
+  return "border-red-500/30 bg-red-500/10 text-red-400";
 }
 
 function scoreColor(score: number) {
@@ -158,7 +140,7 @@ function scoreColor(score: number) {
     return "bg-amber-500";
   }
 
-  return "bg-emerald-500";
+  return "bg-brand-400";
 }
 
 function toggleArrayValue<T extends string>(values: T[], value: T) {
@@ -177,9 +159,9 @@ function FieldGroup({
   children: React.ReactNode;
 }) {
   return (
-    <fieldset className="premium-card-soft rounded-xl p-5">
-      <legend className="px-1 text-base font-black text-slate-950">{title}</legend>
-      <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
+    <fieldset className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5">
+      <legend className="px-1 text-base font-bold text-white">{title}</legend>
+      <p className="mt-1 text-sm leading-6 text-gray-400">{description}</p>
       <div className="mt-5">{children}</div>
     </fieldset>
   );
@@ -197,10 +179,10 @@ function Toggle({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <label className="group flex cursor-pointer items-start justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:border-blue-200 hover:bg-blue-50/40">
+    <label className="group flex cursor-pointer items-start justify-between gap-4 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 transition hover:border-brand-400/20 hover:bg-brand-400/[0.03]">
       <span>
-        <span className="block text-sm font-bold text-slate-800">{label}</span>
-        <span className="mt-1 block text-sm leading-5 text-slate-500">{description}</span>
+        <span className="block text-sm font-bold text-gray-200">{label}</span>
+        <span className="mt-1 block text-sm leading-5 text-gray-500">{description}</span>
       </span>
       <input
         checked={checked}
@@ -208,7 +190,7 @@ function Toggle({
         onChange={(event) => onChange(event.target.checked)}
         type="checkbox"
       />
-      <span className="mt-1 flex h-6 w-11 shrink-0 items-center rounded-full bg-slate-200 p-0.5 transition peer-checked:bg-blue-600 peer-checked:[&>span]:translate-x-5 peer-focus-visible:ring-4 peer-focus-visible:ring-blue-100">
+      <span className="mt-1 flex h-6 w-11 shrink-0 items-center rounded-full bg-white/10 p-0.5 transition peer-checked:bg-brand-400 peer-checked:[&>span]:translate-x-5 peer-focus-visible:ring-4 peer-focus-visible:ring-brand-400/30">
         <span className="h-5 w-5 rounded-full bg-white shadow-sm transition" />
       </span>
     </label>
@@ -219,16 +201,16 @@ function Checklist({ items }: { items: ChecklistItem[] }) {
   return (
     <div className="space-y-3">
       {items.map((item) => (
-        <div className="flex gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm" key={item.label}>
+        <div className="flex gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4" key={item.label}>
           <StatusIcon status={item.status} />
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <p className="text-sm font-bold text-slate-950">{item.label}</p>
-              <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-600">
+              <p className="text-sm font-bold text-gray-200">{item.label}</p>
+              <span className="rounded-full bg-white/5 px-2 py-0.5 text-xs font-bold text-gray-500">
                 {item.status}
               </span>
             </div>
-            <p className="mt-1 text-sm leading-5 text-slate-500">{item.note}</p>
+            <p className="mt-1 text-sm leading-5 text-gray-500">{item.note}</p>
           </div>
         </div>
       ))}
@@ -269,17 +251,17 @@ export function RiskChecker() {
   }
 
   return (
-    <section className="border-y border-slate-200 bg-slate-50" id="checker">
-      <div className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8">
+    <section className="border-y border-white/5 py-20 md:py-28" id="checker">
+      <div className="mx-auto max-w-6xl px-6">
         <div className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
           <div>
-            <p className="mb-4 inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-blue-700">
+            <p className="mb-4 inline-flex rounded-full border border-brand-400/20 bg-brand-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-brand-400">
               Live App Checker
             </p>
-            <h2 className="font-heading text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
+            <h2 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl">
               Check your app before you submit
             </h2>
-            <p className="mt-5 text-lg leading-8 text-slate-600">
+            <p className="mt-5 text-lg leading-relaxed text-gray-400">
               Answer the same review-sensitive questions your team should resolve before
               upload. LaunchGuard updates the risk report instantly.
             </p>
@@ -291,9 +273,9 @@ export function RiskChecker() {
               >
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="block">
-                    <span className="text-sm font-bold text-slate-700">App name</span>
+                    <span className="text-sm font-bold text-gray-300">App name</span>
                     <input
-                      className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                      className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-white shadow-sm outline-none transition focus:border-brand-400/30 focus:ring-4 focus:ring-brand-400/10"
                       onChange={(event) => updateAnswer("appName", event.target.value)}
                       placeholder="My App"
                       type="text"
@@ -301,32 +283,32 @@ export function RiskChecker() {
                     />
                   </label>
                   <label className="block">
-                    <span className="text-sm font-bold text-slate-700">Category</span>
+                    <span className="text-sm font-bold text-gray-300">Category</span>
                     <select
-                      className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                      className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-white shadow-sm outline-none transition focus:border-brand-400/30 focus:ring-4 focus:ring-brand-400/10"
                       onChange={(event) =>
                         updateAnswer("category", event.target.value as AppCategory)
                       }
                       value={answers.category}
                     >
                       {categories.map((category) => (
-                        <option key={category} value={category}>
+                        <option className="bg-[#0a0a0a]" key={category} value={category}>
                           {categoryLabel(category)}
                         </option>
                       ))}
                     </select>
                   </label>
                   <label className="block sm:col-span-2">
-                    <span className="text-sm font-bold text-slate-700">Build stack</span>
+                    <span className="text-sm font-bold text-gray-300">Build stack</span>
                     <select
-                      className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                      className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-white shadow-sm outline-none transition focus:border-brand-400/30 focus:ring-4 focus:ring-brand-400/10"
                       onChange={(event) =>
                         updateAnswer("framework", event.target.value as Framework)
                       }
                       value={answers.framework}
                     >
                       {frameworks.map((framework) => (
-                        <option key={framework.value} value={framework.value}>
+                        <option className="bg-[#0a0a0a]" key={framework.value} value={framework.value}>
                           {framework.label}
                         </option>
                       ))}
@@ -375,20 +357,20 @@ export function RiskChecker() {
                 </div>
 
                 <div className="mt-5">
-                  <p className="text-sm font-bold text-slate-700">Collected data</p>
+                  <p className="text-sm font-bold text-gray-300">Collected data</p>
                   <div className="mt-3 grid gap-2 sm:grid-cols-2">
                     {dataTypes.map((dataType) => (
                       <label
                         className={`flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2.5 text-sm font-bold transition ${
                           answers.dataTypes.includes(dataType.value)
-                            ? "border-blue-200 bg-blue-50 text-blue-800"
-                            : "border-slate-200 bg-white text-slate-700 hover:border-blue-200 hover:bg-blue-50/40"
+                            ? "border-brand-400/30 bg-brand-400/10 text-brand-400"
+                            : "border-white/10 bg-white/[0.02] text-gray-300 hover:border-brand-400/20 hover:bg-brand-400/[0.03]"
                         }`}
                         key={dataType.value}
                       >
                         <input
                           checked={answers.dataTypes.includes(dataType.value)}
-                          className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                          className="h-4 w-4 rounded border-white/20 bg-white/5 text-brand-400 focus:ring-brand-400/30"
                           onChange={() =>
                             updateAnswer(
                               "dataTypes",
@@ -516,20 +498,20 @@ export function RiskChecker() {
                 </div>
 
                 <div className="mt-5">
-                  <p className="text-sm font-bold text-slate-700">Sensitive permissions</p>
+                  <p className="text-sm font-bold text-gray-300">Sensitive permissions</p>
                   <div className="mt-3 grid gap-2 sm:grid-cols-2">
                     {permissions.map((permission) => (
                       <label
                         className={`flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2.5 text-sm font-bold transition ${
                           answers.sensitivePermissions.includes(permission.value)
-                            ? "border-blue-200 bg-blue-50 text-blue-800"
-                            : "border-slate-200 bg-white text-slate-700 hover:border-blue-200 hover:bg-blue-50/40"
+                            ? "border-brand-400/30 bg-brand-400/10 text-brand-400"
+                            : "border-white/10 bg-white/[0.02] text-gray-300 hover:border-brand-400/20 hover:bg-brand-400/[0.03]"
                         }`}
                         key={permission.value}
                       >
                         <input
                           checked={answers.sensitivePermissions.includes(permission.value)}
-                          className="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                          className="h-4 w-4 rounded border-white/20 bg-white/5 text-brand-400 focus:ring-brand-400/30"
                           onChange={() =>
                             updateAnswer(
                               "sensitivePermissions",
@@ -550,14 +532,14 @@ export function RiskChecker() {
 
               <div className="flex flex-col gap-3 sm:flex-row">
                 <button
-                  className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-slate-200"
+                  className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3 text-sm font-bold text-white transition hover:border-white/20 hover:bg-white/[0.05] focus:outline-none focus:ring-4 focus:ring-white/10"
                   onClick={() => setAnswers(exampleAnswers)}
                   type="button"
                 >
                   Load Risky Example
                 </button>
                 <button
-                  className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-3 text-sm font-bold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-100 focus:outline-none focus:ring-4 focus:ring-slate-200"
+                  className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3 text-sm font-bold text-white transition hover:border-white/20 hover:bg-white/[0.05] focus:outline-none focus:ring-4 focus:ring-white/10"
                   onClick={() => setAnswers(defaultAnswers)}
                   type="button"
                 >
@@ -568,19 +550,19 @@ export function RiskChecker() {
           </div>
 
           <aside className="lg:sticky lg:top-24" aria-live="polite">
-            <div className="premium-card overflow-hidden rounded-xl">
-              <div className="border-b border-slate-800 bg-slate-950 px-6 py-5 text-white">
+            <div className="overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.02]">
+              <div className="border-b border-white/5 px-6 py-5">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-400/70">
                       Instant Report
                     </p>
-                    <h3 className="font-heading mt-2 text-2xl font-extrabold">
+                    <h3 className="mt-2 text-2xl font-extrabold text-white">
                       {answers.appName || "Untitled app"}
                     </h3>
                   </div>
                   <span
-                    className={`w-fit rounded-full border px-3 py-1.5 text-sm font-black ${statusClasses(
+                    className={`w-fit rounded-full border px-3 py-1.5 text-sm font-bold ${statusClasses(
                       report.status,
                     )}`}
                   >
@@ -591,34 +573,34 @@ export function RiskChecker() {
 
               <div className="p-6">
                 <div className="grid gap-4 sm:grid-cols-3">
-                  <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
+                  <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-gray-500">
                       Approval Chance
                     </p>
-                    <p className="font-heading mt-2 text-4xl font-extrabold text-slate-950">
+                    <p className="mt-2 text-4xl font-extrabold text-white">
                       {report.approvalChance}%
                     </p>
                   </div>
-                  <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:col-span-2">
+                  <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 sm:col-span-2">
                     <div className="flex items-center justify-between gap-4">
-                      <p className="text-sm font-bold text-slate-700">App Store Risk</p>
-                      <span className="text-sm font-black text-slate-950">
+                      <p className="text-sm font-bold text-gray-400">App Store Risk</p>
+                      <span className="text-sm font-bold text-white">
                         {report.appStoreRisk}%
                       </span>
                     </div>
-                    <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-200">
+                    <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-white/10">
                       <div
                         className={`h-full rounded-full ${scoreColor(report.appStoreRisk)}`}
                         style={{ width: `${report.appStoreRisk}%` }}
                       />
                     </div>
                     <div className="mt-4 flex items-center justify-between gap-4">
-                      <p className="text-sm font-bold text-slate-700">Google Play Risk</p>
-                      <span className="text-sm font-black text-slate-950">
+                      <p className="text-sm font-bold text-gray-400">Google Play Risk</p>
+                      <span className="text-sm font-bold text-white">
                         {report.googlePlayRisk}%
                       </span>
                     </div>
-                    <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-200">
+                    <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-white/10">
                       <div
                         className={`h-full rounded-full ${scoreColor(report.googlePlayRisk)}`}
                         style={{ width: `${report.googlePlayRisk}%` }}
@@ -627,22 +609,22 @@ export function RiskChecker() {
                   </div>
                 </div>
 
-                <p className="mt-5 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-medium leading-6 text-blue-950">
+                <p className="mt-5 rounded-xl border border-brand-400/10 bg-brand-400/[0.03] px-4 py-3 text-sm font-medium leading-6 text-gray-300">
                   {report.summary}
                 </p>
 
                 <div className="mt-6 grid gap-5 xl:grid-cols-2">
                   <div>
-                    <h4 className="text-sm font-black uppercase tracking-[0.16em] text-slate-500">
+                    <h4 className="text-sm font-bold uppercase tracking-[0.16em] text-gray-500">
                       Missing Compliance
                     </h4>
                     <div className="mt-3 space-y-2">
                       {report.missingRequirements.map((item) => (
                         <div
-                          className="flex gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900 shadow-sm"
+                          className="flex gap-3 rounded-xl border border-amber-400/20 bg-amber-400/[0.04] px-4 py-3 text-sm font-semibold text-amber-300"
                           key={item}
                         >
-                          <span className="mt-0.5 text-amber-600">
+                          <span className="mt-0.5 text-amber-400">
                             <AlertIcon />
                           </span>
                           {item}
@@ -652,13 +634,13 @@ export function RiskChecker() {
                   </div>
 
                   <div>
-                    <h4 className="text-sm font-black uppercase tracking-[0.16em] text-slate-500">
+                    <h4 className="text-sm font-bold uppercase tracking-[0.16em] text-gray-500">
                       Potential Rejections
                     </h4>
                     <div className="mt-3 space-y-2">
                       {report.potentialRejections.map((item) => (
                         <div
-                          className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm"
+                          className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3 text-sm font-semibold text-gray-300"
                           key={item}
                         >
                           {item}
@@ -670,35 +652,35 @@ export function RiskChecker() {
 
                 <div className="mt-6 grid gap-5 xl:grid-cols-2">
                   <div>
-                    <h4 className="mb-3 text-sm font-black uppercase tracking-[0.16em] text-slate-500">
+                    <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.16em] text-gray-500">
                       Privacy Checklist
                     </h4>
                     <Checklist items={report.privacyChecklist} />
                   </div>
                   <div>
-                    <h4 className="mb-3 text-sm font-black uppercase tracking-[0.16em] text-slate-500">
+                    <h4 className="mb-3 text-sm font-bold uppercase tracking-[0.16em] text-gray-500">
                       Review Checklist
                     </h4>
                     <Checklist items={report.reviewChecklist} />
                   </div>
                 </div>
 
-                <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
-                  <h4 className="text-sm font-black uppercase tracking-[0.16em] text-slate-500">
+                <div className="mt-6 rounded-xl border border-white/[0.06] bg-white/[0.02] p-5">
+                  <h4 className="text-sm font-bold uppercase tracking-[0.16em] text-gray-500">
                     Recommended Next Steps
                   </h4>
                   <div className="mt-4 space-y-3">
                     {report.recommendations.length > 0 ? (
                       report.recommendations.map((item) => (
-                        <p className="flex gap-3 text-sm leading-6 text-slate-700" key={item}>
-                          <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white">
+                        <p className="flex gap-3 text-sm leading-6 text-gray-300" key={item}>
+                          <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-400 text-black">
                             <CheckIcon />
                           </span>
                           {item}
                         </p>
                       ))
                     ) : (
-                      <p className="text-sm leading-6 text-slate-600">
+                      <p className="text-sm leading-6 text-gray-500">
                         No urgent fixes detected. Re-check the report after metadata,
                         screenshots, and store listing content are final.
                       </p>
@@ -707,7 +689,7 @@ export function RiskChecker() {
                 </div>
 
                 <button
-                  className="button-lift mt-5 inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
+                  className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-brand-400 px-5 py-3 text-sm font-bold text-black shadow-lg shadow-brand-400/20 transition hover:bg-brand-300 hover:shadow-brand-400/30 focus:outline-none focus:ring-4 focus:ring-brand-400/30"
                   onClick={copyReport}
                   type="button"
                 >

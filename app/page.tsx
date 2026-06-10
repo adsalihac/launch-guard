@@ -32,32 +32,26 @@ const features = [
   {
     title: "App Store Risk Score",
     body: "Predict potential Apple review issues before they slow down your launch.",
-    tone: "blue",
   },
   {
     title: "Google Play Risk Score",
     body: "Detect Play Store compliance gaps across privacy, permissions, and policy surfaces.",
-    tone: "green",
   },
   {
     title: "Privacy Checklist",
     body: "Verify policy, disclosures, data collection, deletion, and nutrition label requirements.",
-    tone: "amber",
   },
   {
     title: "Review Checklist",
     body: "Turn store submission readiness into a clear report your team can action.",
-    tone: "gray",
   },
   {
     title: "Subscription Validation",
     body: "Check pricing, renewal, disclosure, trial, and account management implementation risks.",
-    tone: "red",
   },
   {
     title: "UGC Compliance",
     body: "Confirm moderation, reporting, blocking, and safety controls for user-generated content.",
-    tone: "blue",
   },
 ];
 
@@ -112,109 +106,110 @@ const jsonLd = {
   },
 };
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+function ShieldIcon() {
   return (
-    <p className="mb-4 inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-blue-700">
-      {children}
-    </p>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2l8 4.5v7c0 6-4.5 10.5-8 12.5-3.5-2-8-6.5-8-12.5v-7L12 2z" fill="none" stroke="#3ecf8e" strokeWidth="1.5" />
+      <path d="M9 13l3 3 5-6" stroke="#3ecf8e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
-function StatusDot({ color = "bg-emerald-500" }: { color?: string }) {
-  return <span aria-hidden="true" className={`h-2.5 w-2.5 rounded-full ${color}`} />;
+function CheckIcon() {
+  return (
+    <svg aria-hidden="true" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+      <path d="m5 13 4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
 }
 
 function AlertIcon() {
   return (
-    <svg
-      aria-hidden="true"
-      className="h-4 w-4"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
-      <path
-        d="M12 9v4m0 4h.01M10.3 4.5 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.5a2 2 0 0 0-3.4 0Z"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+    <svg aria-hidden="true" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+      <path d="M12 9v4m0 4h.01M10.3 4.5 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.5a2 2 0 0 0-3.4 0Z" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
+  );
+}
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="mb-4 inline-flex rounded-full border border-brand-400/20 bg-brand-400/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-brand-400">
+      {children}
+    </p>
   );
 }
 
 function HeroDashboard() {
   return (
     <div className="relative mx-auto w-full max-w-xl lg:mx-0">
-      <div className="absolute -inset-3 hidden rounded-xl border border-slate-200/80 bg-white/50 lg:block" />
-      <div className="dashboard-card premium-card relative overflow-hidden rounded-xl">
-        <div className="flex items-center justify-between border-b border-slate-100 bg-white px-5 py-4">
+      <div className="dashboard-card relative overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.02]">
+        <div className="flex items-center justify-between border-b border-white/5 px-5 py-4">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">
               LaunchGuard Report
             </p>
-            <h2 className="font-heading mt-1 text-xl font-bold text-slate-950">
+            <h2 className="mt-1 text-xl font-bold text-white">
               Review Readiness
             </h2>
           </div>
-          <div className="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-bold text-emerald-700">
-            <StatusDot />
+          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-sm font-semibold text-emerald-400">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
             Low Review Risk
-          </div>
+          </span>
         </div>
 
-        <div className="grid gap-4 bg-slate-50/70 p-5 sm:grid-cols-2">
-          <div className="score-panel rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="grid gap-4 p-5 sm:grid-cols-2">
+          <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
             <div className="flex items-center justify-between">
-              <p className="text-sm font-semibold text-slate-600">App Store Risk Score</p>
-              <span className="rounded-full bg-blue-600 px-2.5 py-1 text-xs font-bold text-white">
+              <p className="text-sm font-semibold text-gray-400">App Store Risk Score</p>
+              <span className="rounded-full bg-brand-400 px-2.5 py-1 text-xs font-bold text-black">
                 22%
               </span>
             </div>
-            <div className="mt-5 h-3 overflow-hidden rounded-full bg-slate-200">
-              <div className="risk-bar bg-blue-600" style={{ width: "22%" }} />
+            <div className="mt-5 h-3 overflow-hidden rounded-full bg-white/10">
+              <div className="risk-bar bg-brand-400" style={{ width: "22%" }} />
             </div>
-            <p className="mt-4 text-sm text-slate-500">
+            <p className="mt-4 text-sm text-gray-500">
               Privacy disclosures and account settings need review.
             </p>
           </div>
 
-          <div className="score-panel rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
             <div className="flex items-center justify-between">
-              <p className="text-sm font-semibold text-slate-600">Google Play Risk Score</p>
-              <span className="rounded-full bg-emerald-500 px-2.5 py-1 text-xs font-bold text-white">
+              <p className="text-sm font-semibold text-gray-400">Google Play Risk Score</p>
+              <span className="rounded-full bg-brand-400 px-2.5 py-1 text-xs font-bold text-black">
                 15%
               </span>
             </div>
-            <div className="mt-5 h-3 overflow-hidden rounded-full bg-slate-200">
-              <div className="risk-bar bg-emerald-500" style={{ width: "15%" }} />
+            <div className="mt-5 h-3 overflow-hidden rounded-full bg-white/10">
+              <div className="risk-bar bg-brand-400" style={{ width: "15%" }} />
             </div>
-            <p className="mt-4 text-sm text-slate-500">
+            <p className="mt-4 text-sm text-gray-500">
               Store listing, permissions, and safety checks look strong.
             </p>
           </div>
         </div>
 
-        <div className="border-t border-slate-100 bg-white px-5 py-5">
+        <div className="border-t border-white/5 px-5 py-5">
           <div className="mb-4 flex items-center justify-between">
-            <p className="text-sm font-bold text-slate-950">Requirements Missing</p>
-            <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700 ring-1 ring-amber-200">
+            <p className="text-sm font-bold text-white">Requirements Missing</p>
+            <span className="rounded-full border border-amber-400/20 bg-amber-400/10 px-3 py-1 text-xs font-bold text-amber-400">
               2 items
             </span>
           </div>
           <div className="space-y-3">
             {["Privacy Nutrition Labels", "Account Deletion Flow"].map((item) => (
               <div
-                className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm"
+                className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3"
                 key={item}
               >
                 <div className="flex items-center gap-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-600 ring-1 ring-amber-200">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-400/10 text-amber-400">
                     <AlertIcon />
                   </span>
-                  <span className="text-sm font-semibold text-slate-700">{item}</span>
+                  <span className="text-sm font-semibold text-gray-300">{item}</span>
                 </div>
-                <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
+                <span className="text-xs font-bold uppercase tracking-[0.14em] text-gray-600">
                   Review
                 </span>
               </div>
@@ -226,257 +221,234 @@ function HeroDashboard() {
   );
 }
 
-function FeatureGlyph({ tone }: { tone: string }) {
-  const classes: Record<string, string> = {
-    blue: "bg-blue-600 text-white ring-blue-100",
-    green: "bg-emerald-500 text-white ring-emerald-100",
-    amber: "bg-amber-500 text-white ring-amber-100",
-    red: "bg-red-500 text-white ring-red-100",
-    gray: "bg-slate-950 text-white ring-slate-200",
-  };
-
-  return (
-    <span
-      className={`mb-6 flex h-11 w-11 items-center justify-center rounded-xl shadow-sm ring-4 ${
-        classes[tone] ?? classes.gray
-      }`}
-    >
-      <svg aria-hidden="true" className="h-5 w-5" fill="none" viewBox="0 0 24 24">
-        <path
-          d="M5 12.5 9.2 17 19 7"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2.2"
-        />
-      </svg>
-    </span>
-  );
-}
-
 export default function Home() {
   return (
-    <main className="overflow-hidden bg-white pb-24 text-slate-950 sm:pb-20">
+    <main className="min-h-screen bg-[#0a0a0a] text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/85 backdrop-blur-xl">
-        <nav
-          aria-label="Main navigation"
-          className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-3 px-5 py-3 sm:px-6 lg:px-8"
-        >
-          <a className="flex items-center gap-3" href="#top" aria-label="LaunchGuard home">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-950 text-sm font-black text-white shadow-sm">
-              LG
-            </span>
-            <span className="font-heading hidden text-lg font-bold sm:inline">LaunchGuard</span>
+      <nav className="fixed top-0 z-50 w-full border-b border-white/5 bg-[#0a0a0a]/80 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <a href="#top" className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-400/10">
+              <ShieldIcon />
+            </div>
+            <span className="text-lg font-bold">LaunchGuard</span>
           </a>
-          <GitHubActions />
-        </nav>
-      </header>
-
-      <section id="top" className="relative border-b border-slate-200 bg-white">
-        <div className="fine-grid absolute inset-0 -z-0 opacity-70" />
-        <div className="absolute inset-x-0 top-0 -z-0 h-28 bg-gradient-to-b from-blue-50/80 to-transparent" />
-        <div className="relative z-10 mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl items-center gap-12 px-5 py-20 sm:px-6 lg:grid-cols-[1fr_0.92fr] lg:px-8 lg:py-24">
-          <div className="max-w-3xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-bold text-slate-700 shadow-sm">
-              <StatusDot color="bg-blue-600" />
-              App Store Submission Intelligence
-            </div>
-            <h1 className="font-heading max-w-4xl text-5xl font-extrabold leading-[1.02] text-slate-950 sm:text-6xl lg:text-7xl">
-              Will Apple or Google Reject Your App?
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
-              Get an instant App Store and Google Play review risk assessment before you
-              submit.
-            </p>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-slate-500">
-              LaunchGuard helps mobile app developers predict review risks, missing
-              compliance requirements, privacy tasks, and potential rejection reasons in
-              minutes.
-            </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <a
-                className="button-lift inline-flex items-center justify-center rounded-xl bg-blue-600 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
-                href="#checker"
-              >
-                Start Risk Check
-              </a>
-              <a
-                className="button-lift inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-base font-bold text-slate-800 shadow-sm hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
-                href="#checker"
-              >
-                Try Demo
-              </a>
-            </div>
-            <div className="mt-10 grid max-w-xl grid-cols-3 gap-5 border-t border-slate-200 pt-7">
-              {[
-                ["2 stores", "Apple and Google"],
-                ["6 checks", "Core policy areas"],
-                ["Instant", "Readiness signal"],
-              ].map(([value, label]) => (
-                <div key={value}>
-                  <p className="font-heading text-lg font-extrabold text-slate-950">{value}</p>
-                  <p className="mt-1 text-sm leading-5 text-slate-500">{label}</p>
-                </div>
-              ))}
-            </div>
+          <div className="flex items-center gap-3">
+            <GitHubActions />
           </div>
-          <HeroDashboard />
+        </div>
+      </nav>
+
+      <section className="relative overflow-hidden pt-36 pb-20 md:pt-48 md:pb-32">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute left-1/2 top-0 -translate-x-1/2 h-[600px] w-[800px] rounded-full bg-brand-400/5 blur-3xl" />
+        </div>
+        <div className="relative mx-auto max-w-6xl px-6">
+          <div className="grid gap-12 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+            <div>
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-brand-400/20 bg-brand-400/10 px-4 py-1.5">
+                <span className="h-2 w-2 rounded-full bg-brand-400" />
+                <span className="text-sm font-semibold text-brand-400">App Store Submission Intelligence</span>
+              </div>
+              <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                Will Apple or <span className="text-brand-400">Google Reject</span> Your App?
+              </h1>
+              <p className="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-gray-400 md:text-xl">
+                Get an instant App Store and Google Play review risk assessment before you submit.
+                LaunchGuard helps mobile app developers predict review risks, missing compliance requirements, privacy tasks, and potential rejection reasons in minutes.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a
+                  className="inline-flex items-center justify-center rounded-xl bg-brand-400 px-8 py-3.5 text-base font-bold text-black shadow-lg shadow-brand-400/20 transition hover:bg-brand-300 hover:shadow-brand-400/30"
+                  href="#checker"
+                >
+                  Start Risk Check
+                </a>
+                <a
+                  className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] px-8 py-3.5 text-base font-bold text-white transition hover:border-white/20 hover:bg-white/[0.05]"
+                  href="#checker"
+                >
+                  Try Demo
+                </a>
+              </div>
+              <div className="mt-10 grid max-w-md grid-cols-3 gap-5 border-t border-white/5 pt-7">
+                {[
+                  ["2 stores", "Apple and Google"],
+                  ["6 checks", "Core policy areas"],
+                  ["Instant", "Readiness signal"],
+                ].map(([value, label]) => (
+                  <div key={value}>
+                    <p className="text-lg font-extrabold text-white">{value}</p>
+                    <p className="mt-1 text-sm leading-5 text-gray-500">{label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <HeroDashboard />
+          </div>
         </div>
       </section>
 
       <RiskChecker />
 
-      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8" id="problem">
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
-          <div>
-            <SectionLabel>The Problem</SectionLabel>
-            <h2 className="font-heading text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
-              App Rejections Cost Time and Revenue
-            </h2>
-            <p className="mt-5 max-w-xl text-lg leading-8 text-slate-600">
-              Review blockers often hide in policy details, not product quality.
-              LaunchGuard turns those unknowns into a practical pre-submit checklist.
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {rejectionReasons.map((reason) => (
-              <div
-                className="premium-card-soft button-lift rounded-xl p-5 hover:shadow-[0_18px_45px_rgba(15,23,42,0.09)]"
-                key={reason}
-              >
-                <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600 ring-1 ring-red-100">
-                  <AlertIcon />
-                </span>
-                <h3 className="text-base font-bold text-slate-950">{reason}</h3>
-              </div>
-            ))}
+      <section className="border-t border-white/5 py-20 md:py-28" id="problem">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+            <div>
+              <SectionLabel>The Problem</SectionLabel>
+              <h2 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl">
+                App Rejections Cost Time and Revenue
+              </h2>
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-gray-400">
+                Review blockers often hide in policy details, not product quality.
+                LaunchGuard turns those unknowns into a practical pre-submit checklist.
+              </p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {rejectionReasons.map((reason) => (
+                <div
+                  className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-5 transition hover:border-red-500/20 hover:bg-red-500/[0.03]"
+                  key={reason}
+                >
+                  <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/10 text-red-400">
+                    <AlertIcon />
+                  </span>
+                  <h3 className="text-base font-bold text-white">{reason}</h3>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-slate-50" id="how-it-works">
-        <div className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8">
+      <section className="border-y border-white/5 py-20 md:py-28" id="how-it-works">
+        <div className="mx-auto max-w-6xl px-6">
           <div className="mx-auto max-w-3xl text-center">
             <SectionLabel>How It Works</SectionLabel>
-            <h2 className="font-heading text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
+            <h2 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl">
               From app details to review confidence in three steps
             </h2>
           </div>
           <div className="mt-14 grid gap-5 md:grid-cols-3">
             {workflowSteps.map((step) => (
               <div
-                className="premium-card-soft relative rounded-xl p-7"
+                className="relative rounded-xl border border-white/[0.06] bg-white/[0.02] p-7"
                 key={step.number}
               >
-                <span className="font-heading text-5xl font-extrabold text-slate-200">
+                <span className="text-5xl font-extrabold text-white/10">
                   {step.number}
                 </span>
-                <h3 className="mt-6 text-xl font-bold text-slate-950">{step.title}</h3>
-                <p className="mt-3 leading-7 text-slate-600">{step.body}</p>
+                <h3 className="mt-6 text-xl font-bold text-white">{step.title}</h3>
+                <p className="mt-3 leading-7 text-gray-400">{step.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8" id="features">
-        <div className="max-w-3xl">
-          <SectionLabel>Features</SectionLabel>
-          <h2 className="font-heading text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
-            Everything you need before App Review sees your build
-          </h2>
-        </div>
-        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature) => (
-            <article
-              className="premium-card-soft button-lift rounded-xl p-7 hover:shadow-[0_18px_45px_rgba(15,23,42,0.09)]"
-              key={feature.title}
-            >
-              <FeatureGlyph tone={feature.tone} />
-              <h3 className="text-xl font-bold text-slate-950">{feature.title}</h3>
-              <p className="mt-3 leading-7 text-slate-600">{feature.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8" id="audience">
-        <div className="mx-auto max-w-3xl text-center">
-          <SectionLabel>Who Is It For</SectionLabel>
-          <h2 className="font-heading text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
-            Built for teams that ship mobile products
-          </h2>
-        </div>
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {audiences.map((audience) => (
-            <div
-              className="premium-card-soft button-lift rounded-xl p-6 text-center hover:shadow-[0_18px_45px_rgba(15,23,42,0.09)]"
-              key={audience}
-            >
-              <span className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-slate-950 text-sm font-black text-white shadow-sm">
-                {audience
-                  .split(" ")
-                  .map((word) => word[0])
-                  .join("")}
-              </span>
-              <h3 className="text-base font-bold text-slate-950">{audience}</h3>
-            </div>
-          ))}
+      <section className="py-20 md:py-28" id="features">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="max-w-3xl">
+            <SectionLabel>Features</SectionLabel>
+            <h2 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl">
+              Everything you need before App Review sees your build
+            </h2>
+          </div>
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {features.map((feature) => (
+              <article
+                className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-7 transition hover:border-white/[0.12] hover:bg-white/[0.04]"
+                key={feature.title}
+              >
+                <span className="mb-6 flex h-11 w-11 items-center justify-center rounded-xl bg-brand-400/10">
+                  <svg aria-hidden="true" className="h-5 w-5 text-brand-400" fill="none" viewBox="0 0 24 24">
+                    <path d="M5 12.5 9.2 17 19 7" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" />
+                  </svg>
+                </span>
+                <h3 className="text-xl font-bold text-white">{feature.title}</h3>
+                <p className="mt-3 leading-7 text-gray-400">{feature.body}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-slate-50" id="faq">
-        <div className="mx-auto max-w-4xl px-5 py-24 sm:px-6 lg:px-8">
+      <section className="border-y border-white/5 py-20 md:py-28" id="audience">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="mx-auto max-w-3xl text-center">
+            <SectionLabel>Who Is It For</SectionLabel>
+            <h2 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl">
+              Built for teams that ship mobile products
+            </h2>
+          </div>
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {audiences.map((audience) => (
+              <div
+                className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-6 text-center transition hover:border-white/[0.12] hover:bg-white/[0.04]"
+                key={audience}
+              >
+                <span className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-400/10 text-sm font-bold text-brand-400">
+                  {audience
+                    .split(" ")
+                    .map((word) => word[0])
+                    .join("")}
+                </span>
+                <h3 className="text-base font-bold text-white">{audience}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28" id="faq">
+        <div className="mx-auto max-w-4xl px-6">
           <div className="text-center">
             <SectionLabel>FAQ</SectionLabel>
-            <h2 className="font-heading text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
+            <h2 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl">
               Questions before you submit
             </h2>
           </div>
           <div className="mt-12 space-y-4">
             {faqs.map((faq) => (
               <details
-                className="group premium-card-soft rounded-xl p-6 open:shadow-[0_18px_45px_rgba(15,23,42,0.09)]"
+                className="group rounded-xl border border-white/[0.06] bg-white/[0.02] p-6 transition open:border-white/[0.12]"
                 key={faq.question}
               >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-lg font-bold text-slate-950">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-lg font-bold text-white">
                   {faq.question}
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition group-open:rotate-45">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 text-gray-500 transition group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="mt-4 max-w-3xl leading-7 text-slate-600">{faq.answer}</p>
+                <p className="mt-4 max-w-3xl leading-7 text-gray-400">{faq.answer}</p>
               </details>
             ))}
           </div>
         </div>
       </section>
 
-      <footer className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200/80 bg-white/90 shadow-[0_-12px_35px_rgba(15,23,42,0.08)] backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-6 lg:px-8">
-          <div>
-            <a
-              className="text-sm font-semibold text-slate-600 transition hover:text-blue-600"
-              href="https://github.com/adsalihac"
-              rel="noreferrer"
-              target="_blank"
-            >
-              © 2026 adsalihac
-            </a>
+      <footer className="border-t border-white/5 bg-[#0a0a0a] py-12">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+            <p className="text-sm text-gray-500">© 2026 Launch Guard. Built by <a href="https://github.com/adsalihac" target="_blank" rel="noreferrer" className="text-gray-400 transition hover:text-gray-200">adsalihac</a></p>
+            <div className="flex items-center gap-4">
+              <a
+                className="inline-flex items-center gap-2 rounded-xl bg-[#FFDD00] px-4 py-2.5 text-sm font-bold text-black shadow-sm transition hover:bg-[#F6D300]"
+                href="https://www.buymeacoffee.com/adsalihac"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3" />
+                </svg>
+                Buy me a coffee
+              </a>
+            </div>
           </div>
-          <a
-            className="button-lift inline-flex w-fit shrink-0 items-center justify-center rounded-xl bg-[#FFDD00] px-4 py-2.5 text-sm font-black text-slate-950 shadow-sm hover:bg-[#F6D300] focus:outline-none focus:ring-4 focus:ring-amber-200"
-            href="https://www.buymeacoffee.com/adsalihac"
-            rel="noreferrer"
-            target="_blank"
-          >
-            Buy me a coffee
-          </a>
         </div>
       </footer>
     </main>

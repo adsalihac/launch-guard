@@ -18,6 +18,10 @@ export const metadata: Metadata = {
     "iOS app review",
     "Android app review",
   ],
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/apple-touch-icon.svg",
+  },
   openGraph: {
     title: "LaunchGuard - Know Your App Store Approval Chances Before You Submit",
     description:
@@ -44,8 +48,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className="dark">
+      <body className="bg-[#0a0a0a] font-[Inter,system-ui,sans-serif]">{children}</body>
     </html>
   );
 }
