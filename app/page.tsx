@@ -55,12 +55,46 @@ const features = [
   },
 ];
 
-const audiences = [
-  "Indie Developers",
-  "React Native Teams",
-  "Expo Developers",
-  "Mobile Agencies",
-  "Startup Founders",
+const audienceIcons: Record<string, React.ReactNode> = {
+  "Indie Developers": (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  ),
+  "React Native Teams": (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 7h16M7 7V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3M9 7v10M15 7v10M5 17h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1Z" />
+    </svg>
+  ),
+  "Expo Developers": (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="5" y="2" width="14" height="20" rx="2" />
+      <path d="M12 18h.01" />
+      <path d="M9 6h6" />
+    </svg>
+  ),
+  "Mobile Agencies": (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="3" width="20" height="14" rx="2" />
+      <path d="M8 21h8" />
+      <path d="M12 17v4" />
+    </svg>
+  ),
+  "Startup Founders": (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+    </svg>
+  ),
+};
+
+const audiences: Array<{ name: string; description: string }> = [
+  { name: "Indie Developers", description: "Solo devs shipping to both stores" },
+  { name: "React Native Teams", description: "Cross-platform teams reducing risk" },
+  { name: "Expo Developers", description: "Expo-first apps ready for review" },
+  { name: "Mobile Agencies", description: "Client launches done right" },
+  { name: "Startup Founders", description: "Pre-seed MVPs that make it through" },
 ];
 
 const faqs = [
@@ -109,8 +143,10 @@ const jsonLd = {
 function ShieldIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2l8 4.5v7c0 6-4.5 10.5-8 12.5-3.5-2-8-6.5-8-12.5v-7L12 2z" fill="none" stroke="#3ecf8e" strokeWidth="1.5" />
-      <path d="M9 13l3 3 5-6" stroke="#3ecf8e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M12 2C9 7 7 11.5 7 15c0 2.5 2 5 5 6.5 3-1.5 5-4 5-6.5 0-3.5-2-8-5-13z" fill="none" stroke="#3ecf8e" strokeWidth="1.5" strokeLinejoin="round" />
+      <rect x="11" y="16" width="2" height="6" rx="1" fill="#3ecf8e" opacity="0.5" />
+      <circle cx="12" cy="10" r="2.5" fill="none" stroke="#3ecf8e" strokeWidth="1.5" />
+      <path d="M7 8l2 1.5M17 8l-2 1.5M7 14l2-1M17 14l-2-1" stroke="#3ecf8e" strokeWidth="1" strokeLinecap="round" opacity="0.4" />
     </svg>
   );
 }
@@ -389,15 +425,13 @@ export default function Home() {
             {audiences.map((audience) => (
               <div
                 className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-6 text-center transition hover:border-white/[0.12] hover:bg-white/[0.04]"
-                key={audience}
+                key={audience.name}
               >
-                <span className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-400/10 text-sm font-bold text-brand-400">
-                  {audience
-                    .split(" ")
-                    .map((word) => word[0])
-                    .join("")}
+                <span className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-400/10 text-brand-400">
+                  {audienceIcons[audience.name]}
                 </span>
-                <h3 className="text-base font-bold text-white">{audience}</h3>
+                <h3 className="text-base font-bold text-white">{audience.name}</h3>
+                <p className="mt-1.5 text-sm leading-5 text-gray-500">{audience.description}</p>
               </div>
             ))}
           </div>
