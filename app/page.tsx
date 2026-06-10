@@ -114,7 +114,7 @@ const jsonLd = {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
+    <p className="mb-4 inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-blue-700">
       {children}
     </p>
   );
@@ -146,26 +146,25 @@ function AlertIcon() {
 function HeroDashboard() {
   return (
     <div className="relative mx-auto w-full max-w-xl lg:mx-0">
-      <div className="absolute -left-8 top-10 hidden h-24 w-24 rounded-full border border-slate-200 lg:block" />
-      <div className="absolute -right-4 bottom-12 hidden h-20 w-20 rounded-[24px] border border-blue-100 bg-blue-50/70 lg:block" />
-      <div className="dashboard-card relative overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.12)]">
-        <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
+      <div className="absolute -inset-3 hidden rounded-xl border border-slate-200/80 bg-white/50 lg:block" />
+      <div className="dashboard-card premium-card relative overflow-hidden rounded-xl">
+        <div className="flex items-center justify-between border-b border-slate-100 bg-white px-5 py-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">
               LaunchGuard Report
             </p>
             <h2 className="font-heading mt-1 text-xl font-bold text-slate-950">
               Review Readiness
             </h2>
           </div>
-          <div className="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-700">
+          <div className="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-sm font-bold text-emerald-700">
             <StatusDot />
             Low Review Risk
           </div>
         </div>
 
-        <div className="grid gap-4 p-5 sm:grid-cols-2">
-          <div className="score-panel rounded-xl border border-slate-200 bg-slate-50 p-4">
+        <div className="grid gap-4 bg-slate-50/70 p-5 sm:grid-cols-2">
+          <div className="score-panel rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="flex items-center justify-between">
               <p className="text-sm font-semibold text-slate-600">App Store Risk Score</p>
               <span className="rounded-full bg-blue-600 px-2.5 py-1 text-xs font-bold text-white">
@@ -180,7 +179,7 @@ function HeroDashboard() {
             </p>
           </div>
 
-          <div className="score-panel rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <div className="score-panel rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="flex items-center justify-between">
               <p className="text-sm font-semibold text-slate-600">Google Play Risk Score</p>
               <span className="rounded-full bg-emerald-500 px-2.5 py-1 text-xs font-bold text-white">
@@ -206,7 +205,7 @@ function HeroDashboard() {
           <div className="space-y-3">
             {["Privacy Nutrition Labels", "Account Deletion Flow"].map((item) => (
               <div
-                className="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3"
+                className="flex items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm"
                 key={item}
               >
                 <div className="flex items-center gap-3">
@@ -229,16 +228,16 @@ function HeroDashboard() {
 
 function FeatureGlyph({ tone }: { tone: string }) {
   const classes: Record<string, string> = {
-    blue: "bg-blue-50 text-blue-600 ring-blue-100",
-    green: "bg-emerald-50 text-emerald-600 ring-emerald-100",
-    amber: "bg-amber-50 text-amber-600 ring-amber-100",
-    red: "bg-red-50 text-red-600 ring-red-100",
-    gray: "bg-slate-100 text-slate-700 ring-slate-200",
+    blue: "bg-blue-600 text-white ring-blue-100",
+    green: "bg-emerald-500 text-white ring-emerald-100",
+    amber: "bg-amber-500 text-white ring-amber-100",
+    red: "bg-red-500 text-white ring-red-100",
+    gray: "bg-slate-950 text-white ring-slate-200",
   };
 
   return (
     <span
-      className={`mb-6 flex h-11 w-11 items-center justify-center rounded-xl ring-1 ${
+      className={`mb-6 flex h-11 w-11 items-center justify-center rounded-xl shadow-sm ring-4 ${
         classes[tone] ?? classes.gray
       }`}
     >
@@ -263,30 +262,31 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur">
+      <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/85 backdrop-blur-xl">
         <nav
           aria-label="Main navigation"
-          className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8"
+          className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-3 px-5 py-3 sm:px-6 lg:px-8"
         >
           <a className="flex items-center gap-3" href="#top" aria-label="LaunchGuard home">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-950 text-sm font-black text-white">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-950 text-sm font-black text-white shadow-sm">
               LG
             </span>
-            <span className="font-heading text-lg font-bold">LaunchGuard</span>
+            <span className="font-heading hidden text-lg font-bold sm:inline">LaunchGuard</span>
           </a>
           <GitHubActions />
         </nav>
       </header>
 
-      <section id="top" className="relative border-b border-slate-200">
-        <div className="absolute inset-0 -z-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:64px_64px] opacity-35" />
+      <section id="top" className="relative border-b border-slate-200 bg-white">
+        <div className="fine-grid absolute inset-0 -z-0 opacity-70" />
+        <div className="absolute inset-x-0 top-0 -z-0 h-28 bg-gradient-to-b from-blue-50/80 to-transparent" />
         <div className="relative z-10 mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl items-center gap-12 px-5 py-20 sm:px-6 lg:grid-cols-[1fr_0.92fr] lg:px-8 lg:py-24">
           <div className="max-w-3xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-semibold text-slate-700 shadow-sm">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm font-bold text-slate-700 shadow-sm">
               <StatusDot color="bg-blue-600" />
               App Store Submission Intelligence
             </div>
-            <h1 className="font-heading max-w-4xl text-5xl font-bold leading-[1.04] text-slate-950 sm:text-6xl lg:text-7xl">
+            <h1 className="font-heading max-w-4xl text-5xl font-extrabold leading-[1.02] text-slate-950 sm:text-6xl lg:text-7xl">
               Will Apple or Google Reject Your App?
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
@@ -300,13 +300,13 @@ export default function Home() {
             </p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
-                className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
+                className="button-lift inline-flex items-center justify-center rounded-xl bg-blue-600 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
                 href="#checker"
               >
                 Start Risk Check
               </a>
               <a
-                className="inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-base font-bold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
+                className="button-lift inline-flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-base font-bold text-slate-800 shadow-sm hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
                 href="#checker"
               >
                 Try Demo
@@ -319,7 +319,7 @@ export default function Home() {
                 ["Instant", "Readiness signal"],
               ].map(([value, label]) => (
                 <div key={value}>
-                  <p className="text-lg font-black text-slate-950">{value}</p>
+                  <p className="font-heading text-lg font-extrabold text-slate-950">{value}</p>
                   <p className="mt-1 text-sm leading-5 text-slate-500">{label}</p>
                 </div>
               ))}
@@ -335,7 +335,7 @@ export default function Home() {
         <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <div>
             <SectionLabel>The Problem</SectionLabel>
-            <h2 className="font-heading text-4xl font-bold leading-tight text-slate-950 sm:text-5xl">
+            <h2 className="font-heading text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
               App Rejections Cost Time and Revenue
             </h2>
             <p className="mt-5 max-w-xl text-lg leading-8 text-slate-600">
@@ -346,7 +346,7 @@ export default function Home() {
           <div className="grid gap-4 sm:grid-cols-2">
             {rejectionReasons.map((reason) => (
               <div
-                className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+                className="premium-card-soft button-lift rounded-xl p-5 hover:shadow-[0_18px_45px_rgba(15,23,42,0.09)]"
                 key={reason}
               >
                 <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600 ring-1 ring-red-100">
@@ -363,17 +363,17 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <SectionLabel>How It Works</SectionLabel>
-            <h2 className="font-heading text-4xl font-bold leading-tight text-slate-950 sm:text-5xl">
+            <h2 className="font-heading text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
               From app details to review confidence in three steps
             </h2>
           </div>
           <div className="mt-14 grid gap-5 md:grid-cols-3">
             {workflowSteps.map((step) => (
               <div
-                className="relative rounded-xl border border-slate-200 bg-white p-7 shadow-sm"
+                className="premium-card-soft relative rounded-xl p-7"
                 key={step.number}
               >
-                <span className="font-heading text-5xl font-bold text-slate-200">
+                <span className="font-heading text-5xl font-extrabold text-slate-200">
                   {step.number}
                 </span>
                 <h3 className="mt-6 text-xl font-bold text-slate-950">{step.title}</h3>
@@ -387,14 +387,14 @@ export default function Home() {
       <section className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8" id="features">
         <div className="max-w-3xl">
           <SectionLabel>Features</SectionLabel>
-          <h2 className="font-heading text-4xl font-bold leading-tight text-slate-950 sm:text-5xl">
+          <h2 className="font-heading text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
             Everything you need before App Review sees your build
           </h2>
         </div>
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => (
             <article
-              className="rounded-xl border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              className="premium-card-soft button-lift rounded-xl p-7 hover:shadow-[0_18px_45px_rgba(15,23,42,0.09)]"
               key={feature.title}
             >
               <FeatureGlyph tone={feature.tone} />
@@ -408,17 +408,17 @@ export default function Home() {
       <section className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8" id="audience">
         <div className="mx-auto max-w-3xl text-center">
           <SectionLabel>Who Is It For</SectionLabel>
-          <h2 className="font-heading text-4xl font-bold leading-tight text-slate-950 sm:text-5xl">
+          <h2 className="font-heading text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
             Built for teams that ship mobile products
           </h2>
         </div>
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {audiences.map((audience) => (
             <div
-              className="rounded-xl border border-slate-200 bg-white p-6 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+              className="premium-card-soft button-lift rounded-xl p-6 text-center hover:shadow-[0_18px_45px_rgba(15,23,42,0.09)]"
               key={audience}
             >
-              <span className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-slate-950 text-sm font-black text-white">
+              <span className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-slate-950 text-sm font-black text-white shadow-sm">
                 {audience
                   .split(" ")
                   .map((word) => word[0])
@@ -434,14 +434,14 @@ export default function Home() {
         <div className="mx-auto max-w-4xl px-5 py-24 sm:px-6 lg:px-8">
           <div className="text-center">
             <SectionLabel>FAQ</SectionLabel>
-            <h2 className="font-heading text-4xl font-bold leading-tight text-slate-950 sm:text-5xl">
+            <h2 className="font-heading text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
               Questions before you submit
             </h2>
           </div>
           <div className="mt-12 space-y-4">
             {faqs.map((faq) => (
               <details
-                className="group rounded-xl border border-slate-200 bg-white p-6 shadow-sm open:shadow-md"
+                className="group premium-card-soft rounded-xl p-6 open:shadow-[0_18px_45px_rgba(15,23,42,0.09)]"
                 key={faq.question}
               >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-lg font-bold text-slate-950">
@@ -457,7 +457,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200 bg-white/95 backdrop-blur">
+      <footer className="fixed inset-x-0 bottom-0 z-50 border-t border-slate-200/80 bg-white/90 shadow-[0_-12px_35px_rgba(15,23,42,0.08)] backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-6 lg:px-8">
           <div>
             <a
@@ -470,7 +470,7 @@ export default function Home() {
             </a>
           </div>
           <a
-            className="inline-flex w-fit shrink-0 items-center justify-center rounded-xl bg-[#FFDD00] px-4 py-2.5 text-sm font-black text-slate-950 shadow-sm transition hover:-translate-y-0.5 hover:bg-[#F6D300] focus:outline-none focus:ring-4 focus:ring-amber-200"
+            className="button-lift inline-flex w-fit shrink-0 items-center justify-center rounded-xl bg-[#FFDD00] px-4 py-2.5 text-sm font-black text-slate-950 shadow-sm hover:bg-[#F6D300] focus:outline-none focus:ring-4 focus:ring-amber-200"
             href="https://www.buymeacoffee.com/adsalihac"
             rel="noreferrer"
             target="_blank"

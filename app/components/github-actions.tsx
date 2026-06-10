@@ -78,25 +78,25 @@ export function GitHubActions() {
   return (
     <div className="flex items-center gap-2">
       <a
-        className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-bold text-slate-800 shadow-sm transition hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
+        className="button-lift inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-bold text-slate-800 shadow-sm hover:border-slate-400 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200"
         href={repoUrl}
         rel="noreferrer"
         target="_blank"
       >
         <StarIcon />
-        <span>Star</span>
+        <span className="hidden sm:inline">Star</span>
         <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-black text-slate-600">
           {stars === null ? "-" : formatStars(stars)}
         </span>
       </a>
       <a
-        className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-3.5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-300"
+        className="button-lift inline-flex items-center justify-center gap-2 rounded-xl bg-slate-950 px-3.5 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-slate-800 focus:outline-none focus:ring-4 focus:ring-slate-300"
         href={`${repoUrl}/fork`}
         rel="noreferrer"
         target="_blank"
       >
         <GitHubIcon />
-        <span>Contribute</span>
+        <span className="hidden min-[420px]:inline">Contribute</span>
       </a>
     </div>
   );

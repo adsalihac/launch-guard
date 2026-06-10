@@ -177,8 +177,8 @@ function FieldGroup({
   children: React.ReactNode;
 }) {
   return (
-    <fieldset className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-      <legend className="px-1 text-base font-bold text-slate-950">{title}</legend>
+    <fieldset className="premium-card-soft rounded-xl p-5">
+      <legend className="px-1 text-base font-black text-slate-950">{title}</legend>
       <p className="mt-1 text-sm leading-6 text-slate-500">{description}</p>
       <div className="mt-5">{children}</div>
     </fieldset>
@@ -197,17 +197,20 @@ function Toggle({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-start justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 transition hover:border-blue-200 hover:bg-blue-50/30">
+    <label className="group flex cursor-pointer items-start justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:border-blue-200 hover:bg-blue-50/40">
       <span>
         <span className="block text-sm font-bold text-slate-800">{label}</span>
         <span className="mt-1 block text-sm leading-5 text-slate-500">{description}</span>
       </span>
       <input
         checked={checked}
-        className="mt-1 h-5 w-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+        className="peer sr-only"
         onChange={(event) => onChange(event.target.checked)}
         type="checkbox"
       />
+      <span className="mt-1 flex h-6 w-11 shrink-0 items-center rounded-full bg-slate-200 p-0.5 transition peer-checked:bg-blue-600 peer-checked:[&>span]:translate-x-5 peer-focus-visible:ring-4 peer-focus-visible:ring-blue-100">
+        <span className="h-5 w-5 rounded-full bg-white shadow-sm transition" />
+      </span>
     </label>
   );
 }
@@ -216,7 +219,7 @@ function Checklist({ items }: { items: ChecklistItem[] }) {
   return (
     <div className="space-y-3">
       {items.map((item) => (
-        <div className="flex gap-3 rounded-xl border border-slate-200 bg-white p-4" key={item.label}>
+        <div className="flex gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm" key={item.label}>
           <StatusIcon status={item.status} />
           <div>
             <div className="flex flex-wrap items-center gap-2">
@@ -270,10 +273,10 @@ export function RiskChecker() {
       <div className="mx-auto max-w-7xl px-5 py-24 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-blue-600">
+            <p className="mb-4 inline-flex rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-black uppercase tracking-[0.18em] text-blue-700">
               Live App Checker
             </p>
-            <h2 className="font-heading text-4xl font-bold leading-tight text-slate-950 sm:text-5xl">
+            <h2 className="font-heading text-4xl font-extrabold leading-tight text-slate-950 sm:text-5xl">
               Check your app before you submit
             </h2>
             <p className="mt-5 text-lg leading-8 text-slate-600">
@@ -290,7 +293,7 @@ export function RiskChecker() {
                   <label className="block">
                     <span className="text-sm font-bold text-slate-700">App name</span>
                     <input
-                      className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                      className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                       onChange={(event) => updateAnswer("appName", event.target.value)}
                       placeholder="My App"
                       type="text"
@@ -300,7 +303,7 @@ export function RiskChecker() {
                   <label className="block">
                     <span className="text-sm font-bold text-slate-700">Category</span>
                     <select
-                      className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                      className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                       onChange={(event) =>
                         updateAnswer("category", event.target.value as AppCategory)
                       }
@@ -316,7 +319,7 @@ export function RiskChecker() {
                   <label className="block sm:col-span-2">
                     <span className="text-sm font-bold text-slate-700">Build stack</span>
                     <select
-                      className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                      className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-900 shadow-sm outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
                       onChange={(event) =>
                         updateAnswer("framework", event.target.value as Framework)
                       }
@@ -376,7 +379,11 @@ export function RiskChecker() {
                   <div className="mt-3 grid gap-2 sm:grid-cols-2">
                     {dataTypes.map((dataType) => (
                       <label
-                        className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50/30"
+                        className={`flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2.5 text-sm font-bold transition ${
+                          answers.dataTypes.includes(dataType.value)
+                            ? "border-blue-200 bg-blue-50 text-blue-800"
+                            : "border-slate-200 bg-white text-slate-700 hover:border-blue-200 hover:bg-blue-50/40"
+                        }`}
                         key={dataType.value}
                       >
                         <input
@@ -513,7 +520,11 @@ export function RiskChecker() {
                   <div className="mt-3 grid gap-2 sm:grid-cols-2">
                     {permissions.map((permission) => (
                       <label
-                        className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50/30"
+                        className={`flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2.5 text-sm font-bold transition ${
+                          answers.sensitivePermissions.includes(permission.value)
+                            ? "border-blue-200 bg-blue-50 text-blue-800"
+                            : "border-slate-200 bg-white text-slate-700 hover:border-blue-200 hover:bg-blue-50/40"
+                        }`}
                         key={permission.value}
                       >
                         <input
@@ -557,14 +568,14 @@ export function RiskChecker() {
           </div>
 
           <aside className="lg:sticky lg:top-24" aria-live="polite">
-            <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.12)]">
-              <div className="border-b border-slate-200 bg-slate-950 px-6 py-5 text-white">
+            <div className="premium-card overflow-hidden rounded-xl">
+              <div className="border-b border-slate-800 bg-slate-950 px-6 py-5 text-white">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
                       Instant Report
                     </p>
-                    <h3 className="font-heading mt-2 text-2xl font-bold">
+                    <h3 className="font-heading mt-2 text-2xl font-extrabold">
                       {answers.appName || "Untitled app"}
                     </h3>
                   </div>
@@ -580,15 +591,15 @@ export function RiskChecker() {
 
               <div className="p-6">
                 <div className="grid gap-4 sm:grid-cols-3">
-                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
                     <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
                       Approval Chance
                     </p>
-                    <p className="font-heading mt-2 text-4xl font-bold text-slate-950">
+                    <p className="font-heading mt-2 text-4xl font-extrabold text-slate-950">
                       {report.approvalChance}%
                     </p>
                   </div>
-                  <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 sm:col-span-2">
+                  <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:col-span-2">
                     <div className="flex items-center justify-between gap-4">
                       <p className="text-sm font-bold text-slate-700">App Store Risk</p>
                       <span className="text-sm font-black text-slate-950">
@@ -616,7 +627,7 @@ export function RiskChecker() {
                   </div>
                 </div>
 
-                <p className="mt-5 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-900">
+                <p className="mt-5 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-medium leading-6 text-blue-950">
                   {report.summary}
                 </p>
 
@@ -628,7 +639,7 @@ export function RiskChecker() {
                     <div className="mt-3 space-y-2">
                       {report.missingRequirements.map((item) => (
                         <div
-                          className="flex gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900"
+                          className="flex gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900 shadow-sm"
                           key={item}
                         >
                           <span className="mt-0.5 text-amber-600">
@@ -647,7 +658,7 @@ export function RiskChecker() {
                     <div className="mt-3 space-y-2">
                       {report.potentialRejections.map((item) => (
                         <div
-                          className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700"
+                          className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm"
                           key={item}
                         >
                           {item}
@@ -672,7 +683,7 @@ export function RiskChecker() {
                   </div>
                 </div>
 
-                <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5">
+                <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm">
                   <h4 className="text-sm font-black uppercase tracking-[0.16em] text-slate-500">
                     Recommended Next Steps
                   </h4>
@@ -696,7 +707,7 @@ export function RiskChecker() {
                 </div>
 
                 <button
-                  className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
+                  className="button-lift mt-5 inline-flex w-full items-center justify-center rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
                   onClick={copyReport}
                   type="button"
                 >
