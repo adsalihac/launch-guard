@@ -1,5 +1,6 @@
 "use client";
 
+import { jsPDF } from "jspdf";
 import { useMemo, useState } from "react";
 import {
   calculateRiskReport,
@@ -248,6 +249,108 @@ export function RiskChecker() {
 
     await navigator.clipboard.writeText(reportText);
     setCopied(true);
+  }
+
+  function downloadPDF() {
+    const pdf = new jsPDF({ unit: "mm", format: "a4" });
+    const pageW = 210;
+    const margin = 20;
+    const contentW = pageW - margin * 2;
+    let y = margin;
+
+    function addSection(title: string, items: string[]) {
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(11);
+      pdf.setTextColor(62, 207, 142);
+      pdf.text(title, margin, y);
+      y += 6;
+
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(10);
+      pdf.setTextColor(100, 100, 100);
+
+      for (const item of items) {
+        const lines = pdf.splitTextToSize(`- ${item}`, contentW - 5);
+        for (const line of lines) {
+          if (y > 275) {
+            pdf.addPage();
+            y = margin;
+          }
+          pdf.text(line, margin + 3, y);
+          y += 5;
+        }
+      }
+      y += 4;
+    }
+
+    pdf.setFillColor(10, 10, 10);
+    pdf.rect(0, 0, pageW, 297, "F");
+
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(22);
+    pdf.setTextColor(62, 207, 142);
+    pdf.text("LaunchGuard", margin, y);
+    y += 4;
+
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(10);
+    pdf.setTextColor(150, 150, 150);
+    pdf.text("Risk Assessment Report", margin, y);
+    y += 10;
+
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(14);
+    pdf.setTextColor(255, 255, 255);
+    pdf.text(answers.appName || "Untitled app", margin, y);
+    y += 8;
+
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(10);
+    pdf.setTextColor(150, 150, 150);
+    pdf.text(`Status: ${report.status} review risk`, margin, y);
+    y += 10;
+
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(11);
+    pdf.setTextColor(255, 255, 255);
+    pdf.text(`Approval Chance: ${report.approvalChance}%`, margin, y);
+    pdf.text(`App Store Risk: ${report.appStoreRisk}%`, margin + contentW / 2, y);
+    y += 7;
+    pdf.text(`Google Play Risk: ${report.googlePlayRisk}%`, margin, y);
+    y += 12;
+
+    pdf.setTextColor(200, 200, 200);
+    pdf.setFontSize(10);
+    pdf.setFont("helvetica", "normal");
+    const summaryLines = pdf.splitTextToSize(report.summary, contentW);
+    for (const line of summaryLines) {
+      if (y > 275) {
+        pdf.addPage();
+        y = margin;
+      }
+      pdf.text(line, margin, y);
+      y += 5;
+    }
+    y += 6;
+
+    addSection("Missing Requirements", report.missingRequirements);
+
+    addSection("Potential Rejection Reasons", report.potentialRejections);
+
+    addSection("Recommendations", report.recommendations);
+
+    if (y > 260) {
+      pdf.addPage();
+      y = margin;
+    }
+    y = 280;
+
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(8);
+    pdf.setTextColor(80, 80, 80);
+    pdf.text("Powered by LaunchGuard \u2022 https://launchguard.dev", margin, y);
+
+    pdf.save(`${answers.appName || "app"}-risk-report.pdf`);
   }
 
   return (
@@ -688,13 +791,27 @@ export function RiskChecker() {
                   </div>
                 </div>
 
-                <button
-                  className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-brand-400 px-5 py-3 text-sm font-bold text-black shadow-lg shadow-brand-400/20 transition hover:bg-brand-300 hover:shadow-brand-400/30 focus:outline-none focus:ring-4 focus:ring-brand-400/30"
-                  onClick={copyReport}
-                  type="button"
-                >
-                  {copied ? "Report Copied" : "Copy Report"}
-                </button>
+                <div className="mt-5 flex gap-3">
+                  <button
+                    className="flex-1 inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] px-5 py-3 text-sm font-bold text-white transition hover:border-white/20 hover:bg-white/[0.05] focus:outline-none focus:ring-4 focus:ring-white/10"
+                    onClick={downloadPDF}
+                    type="button"
+                  >
+                    <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <path d="M14 2v6h6" />
+                      <path d="M12 18v-6M9 15l3 3 3-3" />
+                    </svg>
+                    Download PDF
+                  </button>
+                  <button
+                    className="flex-1 inline-flex items-center justify-center rounded-xl bg-brand-400 px-5 py-3 text-sm font-bold text-black shadow-lg shadow-brand-400/20 transition hover:bg-brand-300 hover:shadow-brand-400/30 focus:outline-none focus:ring-4 focus:ring-brand-400/30"
+                    onClick={copyReport}
+                    type="button"
+                  >
+                    {copied ? "Report Copied" : "Copy Report"}
+                  </button>
+                </div>
               </div>
             </div>
           </aside>

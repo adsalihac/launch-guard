@@ -274,6 +274,12 @@ export default function Home() {
             <span className="text-lg font-bold">LaunchGuard</span>
           </a>
           <div className="flex items-center gap-3">
+            <a
+              href="/blog"
+              className="hidden text-sm text-gray-400 transition hover:text-white sm:inline"
+            >
+              Blog
+            </a>
             <GitHubActions />
           </div>
         </div>
@@ -469,6 +475,9 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
             <p className="text-sm text-gray-500">© 2026 Launch Guard. Built by <a href="https://github.com/adsalihac" target="_blank" rel="noreferrer" className="text-gray-400 transition hover:text-gray-200">adsalihac</a></p>
+            <div className="flex items-center gap-6">
+              <a href="/blog" className="text-sm text-gray-500 transition hover:text-gray-300">Blog</a>
+            </div>
             <div className="flex items-center gap-4">
               <a
                 className="inline-flex items-center gap-2 rounded-xl bg-[#FFDD00] px-4 py-2.5 text-sm font-bold text-black shadow-sm transition hover:bg-[#F6D300]"
